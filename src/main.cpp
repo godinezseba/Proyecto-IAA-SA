@@ -3,7 +3,6 @@
 #include <cstdlib>
 #include <ctime>
 #include "./TabuSearch.cpp"
-#include "./Auxiliar.cpp"
 
 using namespace std;
 
@@ -41,6 +40,6 @@ int main(int argc, char *argv[]){
     //show solution
     // calculateDistance(solution, distances);
     // calculateDistancePenalty(solution, distances);
-    showSolution(solution);
+    // showSolution(solution);
     return 0;
 }
