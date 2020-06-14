@@ -2,9 +2,10 @@
 N=4
 TYPE=NL
 SEED=0
+DEBUG=0
 
-INPUT=$(TYPE)$(N).txt
-RUN=./main $(SEED) $(N) < input/$(TYPE)/$(INPUT) > output/$(INPUT)
+INPUT=$(TYPE)$(N)
+RUN=./main $(SEED) $(N) $(DEBUG) < input/$(TYPE)/$(INPUT).txt > output/$(INPUT).solution
 
 all: compile
 	$(RUN)
