@@ -2,6 +2,7 @@
 #include <math.h>
 #include "./Entities/Tournament.cpp"
 #include "./Auxiliar.cpp"
+#include "./Objective.cpp"
 
 using namespace std;
 
@@ -169,13 +170,16 @@ SwapSolutions SwapMatches(vector<vector<int>> scheduling, int teamA, int teamB, 
 }
 
 vector<vector<int>> TabuSearch(vector<vector<int>> distances){
+    SwapSolutions temp;
     total = distances.size();
 
     TSTournament tournament = TSTournament(total, DEBUG);
     showSolution(tournament.getSchedule());
     // showSolution(SwapHomes(tournament.getSchedule(), 1, 2));
     // showSolution(SwapMatchRounds(tournament.getSchedule(), 1, 5, 2).solution);
-    showSolution(SwapMatches(tournament.getSchedule(), 1, 3, 3).solution);
+    temp = SwapMatches(tournament.getSchedule(), 1, 3, 3);
+    showSolution(temp.solution);
+    Distance(temp.solution, distances, DEBUG);
 
     return tournament.getSchedule();
 }
