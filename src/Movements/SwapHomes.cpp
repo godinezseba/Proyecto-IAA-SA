@@ -1,6 +1,7 @@
 #include <vector>
 #include <math.h>
 #include "../Entities/Tournament.cpp"
+#include "../Entities/TabuList.cpp"
 #include "../Objective.cpp"
 
 using namespace std;
@@ -28,26 +29,26 @@ vector<vector<int>> SwapHomes(vector<vector<int>> scheduling, int teamA, int tea
     return scheduling;
 }
 
-bool InTabuList(vector<TabuSwapHomes> tabuList, int teamA, int teamB){
-  for(TabuSwapHomes pair : tabuList){
-    bool cond1 = (pair.teamA == teamA && pair.teamB == teamB);
-    bool cond2 = (pair.teamA == teamB && pair.teamB == teamA);
-    if(cond1 || cond2)
-      return true;
-  }
-  return false;
+bool SwapHomesCondition(TabuSwapHomes inList, TabuSwapHomes auxiliar){
+  bool cond1 = (inList.teamA == auxiliar.teamA && inList.teamB == auxiliar.teamB);
+  bool cond2 = (inList.teamA == auxiliar.teamB && inList.teamB == auxiliar.teamA);
+  return cond1 || cond2;
 }
 
-TSTournament BestSwapHomes(vector<vector<int>> distances, TSTournament scheduling, vector<TabuSwapHomes> &tabuList){
+TSTournament BestSwapHomes(vector<vector<int>> distances, TSTournament scheduling, TabuTail<TabuSwapHomes> &tabuList){
   unsigned int totalTeams = scheduling.getSchedule()[0].size();
   unsigned long int bestResult = scheduling.getDistance();
   unsigned long int auxResult;
   TabuSwapHomes tempValues;
+  TabuSwapHomes bestValues;
   vector<vector<int>> tempScheduling;
 
   for (unsigned int auxTeamA = 0; auxTeamA < totalTeams; auxTeamA++)
-    for (unsigned int auxTeamB = auxTeamA; auxTeamB < totalTeams; auxTeamB++)
-      if(!InTabuList(tabuList, auxTeamA, auxTeamB)){
+    for (unsigned int auxTeamB = auxTeamA; auxTeamB < totalTeams; auxTeamB++){
+      tempValues.teamA = auxTeamA;
+      tempValues.teamB = auxTeamB;
+    
+      if(!tabuList.InTabuTail(SwapHomesCondition, tempValues)){
         // get scheduling from movement
         tempScheduling = SwapHomes(scheduling.getSchedule(), auxTeamA, auxTeamB);
         auxResult = ObjectiveFunction(distances, tempScheduling);
@@ -55,28 +56,26 @@ TSTournament BestSwapHomes(vector<vector<int>> distances, TSTournament schedulin
         if(auxResult < scheduling.getDistance()){
           scheduling.setDistance(auxResult);
           scheduling.setSchedule(tempScheduling);
-          tempValues.teamA = auxTeamA;
-          tempValues.teamB = auxTeamB;
+          bestValues = tempValues;
         }
       }
-
-  if (bestResult != scheduling.getDistance()){ // add the result to the list
-    if (tabuList.size() == 2){
-      tabuList.erase(tabuList.begin());
     }
-    tabuList.push_back(tempValues);
-  }
+
+  // add the result to the list
+  if (bestResult != scheduling.getDistance()) tabuList.addElement(tempValues);
   
   return scheduling;
 }
 
 vector<vector<int>> TabuSearchSwapHomes(vector<vector<int>> distances, TSTournament scheduling, int DEBUG=0){
-  vector<TabuSwapHomes> tabuList;
+  TabuTail<TabuSwapHomes> tabuList = TabuTail<TabuSwapHomes>(8);
 
   for(int i = 0; i < 100; i++){
     scheduling = BestSwapHomes(distances, scheduling, tabuList);
     if(DEBUG) scheduling.print();
   }
+
+  ObjectiveFunction(distances, scheduling.getSchedule(), 1);
 
   return scheduling.getSchedule();
 }
