@@ -74,6 +74,41 @@ SwapSolutions SwapMatchRounds(vector<vector<int>> scheduling, int roundA, int ro
     return solution;
 }
 
-// TSTournament BestSwapMatchRounds(vector<vector<int>> distances, TSTournament scheduling, TabuTail<TabuSwapWithList> &tabuList){
+TSTournament BestSwapMatchRounds(vector<vector<int>> distances, TSTournament scheduling, TabuTail<TabuSwapWithList> &tabuList, int DEBUG=0){
+    unsigned int totalTeams = scheduling.getSchedule()[0].size();
+    unsigned int totalRounds = scheduling.getSchedule().size();
+    unsigned long int bestResult = scheduling.getDistance();
+    unsigned long int auxResult;
+    TabuSwapWithList bestValues;
+    TabuSwapWithList tempValues;
+    vector<vector<int>> bestActual = scheduling.getSchedule();
+    SwapSolutions tempScheduling;
 
-// }
+    for(unsigned int auxRoundA = 1; auxRoundA <= totalRounds; auxRoundA++)
+        for (unsigned int auxRoundB = auxRoundA+1; auxRoundB <= totalRounds; auxRoundB++)
+            for(unsigned int auxTeam = 1; auxTeam <= totalTeams; auxTeam++){
+                tempValues.auxA = auxRoundA;
+                tempValues.auxB = auxRoundB;
+                tempValues.list = vector<int>();
+                tempValues.list.push_back(auxTeam);
+                if(!tabuList.InTabuTail(AuxCondition, tempValues)){
+                    tempScheduling = SwapMatchRounds(bestActual, auxRoundA, auxRoundB, auxTeam);
+                    if(tempScheduling.movements.size() != 0){
+                        auxResult = ObjectiveFunction(distances, tempScheduling.solution);
+                        if(DEBUG) cout << "[DEBUG] roundA: " << auxRoundA << ", roundB: " << auxRoundB << ", team: " << auxTeam << ", result: " << auxResult << endl;
+                        // compare
+                        if(auxResult < scheduling.getDistance()){
+                            scheduling.setDistance(auxResult);
+                            scheduling.setSchedule(tempScheduling.solution);
+                            tempValues.list = tempScheduling.movements;
+                            bestValues = tempValues;
+                        }
+                    }
+                }                
+            }
+    // add the result to the list
+    if (bestResult != scheduling.getDistance()) tabuList.addElement(bestValues);
+    
+    if(DEBUG) tabuList.print(printAuxiliar);
+    return scheduling;
+}
