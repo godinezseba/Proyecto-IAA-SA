@@ -21,8 +21,8 @@ float DistancePenalty(int distance, int penalty){
     return sqrt(powDistance + powPenalty);
 }
 
-unsigned int Distance(vector<vector<int>> solution, vector<vector<int>> distances, int DEBUG) {
-    unsigned int distance = 0;
+unsigned long int Distance(vector<vector<int>> distances, vector<vector<int>> solution, int DEBUG=0) {
+    unsigned long int distance = 0;
     int localDistance = 0;
     long unsigned int actualCity; // the city where our team is
     int trip; // count how many times the team play as visit or local
