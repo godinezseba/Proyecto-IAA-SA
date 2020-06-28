@@ -1,12 +1,7 @@
 #include <vector>
 #include <math.h>
 #include "../Entities/TabuList.cpp"
-
-struct TabuSwapMatch{
-    int teamA;
-    int teamB;
-    vector<int> rounds;
-};
+#include "../Entities/Tournament.cpp"
 
 /**
  * Auxiliar movement to change the rivals for two teams in a round

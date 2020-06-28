@@ -1,13 +1,9 @@
 #include <vector>
 #include "../Entities/TabuList.cpp"
+#include "../Entities/Tournament.cpp"
+#include "../Entities/AuxiliarTabuEntities.cpp"
 
 using namespace std;
-
-struct TabuSwapMatchRounds{
-    int roundA;
-    int roundB;
-    vector<int> teams;
-};
 
 /**
  * Auxiliar movement to change the rivals for a team in two rounds
@@ -77,3 +73,7 @@ SwapSolutions SwapMatchRounds(vector<vector<int>> scheduling, int roundA, int ro
 
     return solution;
 }
+
+// TSTournament BestSwapMatchRounds(vector<vector<int>> distances, TSTournament scheduling, TabuTail<TabuSwapWithList> &tabuList){
+
+// }
