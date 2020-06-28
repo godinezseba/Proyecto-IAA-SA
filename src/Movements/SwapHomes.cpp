@@ -21,16 +21,16 @@ void printHomes(TabuSwapHomes element){
  * output: the new scheduling
 */
 vector<vector<int>> SwapHomes(vector<vector<int>> scheduling, int teamA, int teamB){
-    int postA = teamA - 1;
-    int postB = teamB - 1;
-    // find the two rounds and change the sign
-    for(vector<int> &round : scheduling)
-        if (abs(round[postA]) == teamB){
-            round[postA] = -1*round[postA];
-            round[postB] = -1*round[postB];
-        }
+  int postA = teamA - 1;
+  int postB = teamB - 1;
+  // find the two rounds and change the sign
+  for(vector<int> &round : scheduling)
+    if (abs(round[postA]) == teamB){
+      round[postA] = -1*round[postA];
+      round[postB] = -1*round[postB];
+    }
 
-    return scheduling;
+  return scheduling;
 }
 
 bool SwapHomesCondition(TabuSwapHomes inList, TabuSwapHomes auxiliar){

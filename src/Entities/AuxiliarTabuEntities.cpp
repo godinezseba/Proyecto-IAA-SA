@@ -1,7 +1,8 @@
 #if !defined(Auxiliar)
 #define Auxiliar
 
-#include<vector>
+#include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -11,13 +12,22 @@ struct TabuSwapWithList{
     vector<int> list;
 };
 
-bool SwapHomesCondition(TabuSwapWithList inList, int auxA, int auxB, int auxC){
-  bool cond2 = (inList.auxA == auxB && inList.auxB == auxA);
-  bool cond1 = (inList.auxA == auxA && inList.auxB == auxB);
+void printAuxiliar(TabuSwapWithList element){
+  cout << "auxA: " << element.auxA << ", auxB: " << element.auxB << endl;
+  for(int element : element.list)
+    cout << element << ", ";
+  cout << endl;
+}
+
+bool AuxCondition(TabuSwapWithList inList, TabuSwapWithList element){
+  bool cond2 = (inList.auxA == element.auxB && inList.auxB == element.auxA);
+  bool cond1 = (inList.auxA == element.auxA && inList.auxB == element.auxB);
+
+  int auxC = element.list[0];
 
   if(cond1 || cond2)
-    for(int element : inList.list)
-      if(element == auxC)
+    for(int e : inList.list)
+      if(e == auxC)
         return true;
 
   return false;

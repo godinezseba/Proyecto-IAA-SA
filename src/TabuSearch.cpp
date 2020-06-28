@@ -17,9 +17,9 @@ vector<vector<int>> TabuSearch(vector<vector<int>> distances, int iterations){
     tournament.setDistance(ObjectiveFunction(distances, tournament.getSchedule()));
     tournament.print();
 
-    vector<vector<int>> tempSchedule = TabuSearchOneSwap(distances, tournament, BestSwapHomes, iterations, DEBUG);
+    vector<vector<int>> tempSchedule = TabuSearchOneSwap(distances, tournament, BestSwapMatches, iterations, DEBUG);
     tournament.setSchedule(tempSchedule);
-    tournament.setDistance(ObjectiveFunction(distances, tournament.getSchedule()));
+    tournament.setDistance(ObjectiveFunction(distances, tournament.getSchedule(), 1));
     tournament.print();
 
     return tournament.getSchedule();
