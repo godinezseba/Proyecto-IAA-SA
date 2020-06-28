@@ -52,7 +52,7 @@ void SwapTeamRival(vector<vector<int>> &scheduling, int roundA, int roundB, int 
  * input: movTeams: list with the teams that swap the matches
  * output: the new point to continue the reparation
 */
-unsigned int SwapTeamsRival(vector<vector<int>> &scheduling, vector<int> &movTeams,int roundA, int roundB, unsigned int teamA){
+unsigned int SwapTeamsRival(vector<vector<int>> &scheduling, vector<int> &movTeams,int roundA, int roundB, unsigned int teamA, int DEBUG){
     // change value for the first team
     SwapTeamRival(scheduling, roundA, roundB, teamA);
     movTeams.push_back(teamA+1); // add team to the list
@@ -76,7 +76,7 @@ unsigned int SwapTeamsRival(vector<vector<int>> &scheduling, vector<int> &movTea
  * input: the team, the two round to change the rival
  * output: a new scheduling that is double round-robin
 */
-SwapSolutions SwapMatchRounds(vector<vector<int>> scheduling, int roundA, int roundB, int team){
+SwapSolutions SwapMatchRounds(vector<vector<int>> scheduling, int roundA, int roundB, int team, int DEBUG=0){
     SwapSolutions solution;
     // change position to work in the matrix
     roundA--;
@@ -92,7 +92,7 @@ SwapSolutions SwapMatchRounds(vector<vector<int>> scheduling, int roundA, int ro
     // temporal value to change the rivals
     int b = team;
     do // this while is to make the repair chain
-        b = SwapTeamsRival(scheduling, solution.movements, roundA, roundB, b);    
+        b = SwapTeamsRival(scheduling, solution.movements, roundA, roundB, b, DEBUG);    
     while (b != team); // when the temporal team is the original the algorithm stop
     // add the new solution to the struct
     solution.solution = scheduling;
@@ -125,7 +125,7 @@ void SwapRoundRival(vector<vector<int>> &scheduling, int teamA, int teamB, int r
 /**
  * Movement to change the rivals for two teams in a round
 */
-SwapSolutions SwapMatches(vector<vector<int>> scheduling, int teamA, int teamB, unsigned int round){
+SwapSolutions SwapMatches(vector<vector<int>> scheduling, int teamA, int teamB, unsigned int round, int DEBUG=0){
     SwapSolutions solution;
     // get position for the teams
     int posA = teamA - 1;
@@ -177,9 +177,10 @@ vector<vector<int>> TabuSearch(vector<vector<int>> distances){
     showSolution(tournament.getSchedule());
     // showSolution(SwapHomes(tournament.getSchedule(), 1, 2));
     // showSolution(SwapMatchRounds(tournament.getSchedule(), 1, 5, 2).solution);
-    temp = SwapMatches(tournament.getSchedule(), 1, 3, 3);
+    // temp = SwapMatches(tournament.getSchedule(), 1, 3, 3);
+    temp = SwapMatchRounds(tournament.getSchedule(), 1, 5, 2);
     showSolution(temp.solution);
-    Distance(temp.solution, distances, DEBUG);
+    Distance(temp.solution, distances, 0);
 
     return tournament.getSchedule();
 }
