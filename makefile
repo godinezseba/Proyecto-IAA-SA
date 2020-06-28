@@ -3,9 +3,10 @@ N=4
 TYPE=NL
 SEED=0
 DEBUG=0
+ITERATIONS=10
 
 INPUT=$(TYPE)$(N)
-RUN=./main $(SEED) $(N) $(DEBUG) < input/$(TYPE)/$(INPUT).txt > output/$(INPUT).solution
+RUN=./main $(SEED) $(N) $(DEBUG) $(ITERATIONS) < input/$(TYPE)/$(INPUT).txt > output/$(INPUT).solution
 
 all: compile
 	$(RUN)

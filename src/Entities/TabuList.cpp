@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include "../Objective.cpp"
 
 using namespace std;
 
@@ -40,6 +41,26 @@ public:
         return true;
     return false;
   }
+
+  void print(void (*printElement)(T)){
+    cout << "Cantidad de elementos: " << tail.size() << endl;
+    for(T element : tail)
+      printElement(element);
+  }
 };
+
+template <class T>
+vector<vector<int>> TabuSearchOneSwap(vector<vector<int>> distances, TSTournament scheduling, TSTournament (*BestSwap)(vector<vector<int>>, TSTournament, TabuTail<T> &, int), int iterations=1, int DEBUG=0){
+  TabuTail<T> tabuList = TabuTail<T>(8);
+
+  for(int i = 0; i < iterations; i++){
+    scheduling = BestSwap(distances, scheduling, tabuList, DEBUG);
+    if(DEBUG) scheduling.print();
+  }
+
+  if(DEBUG) ObjectiveFunction(distances, scheduling.getSchedule(), 0);
+
+  return scheduling.getSchedule();
+}
 
 #endif

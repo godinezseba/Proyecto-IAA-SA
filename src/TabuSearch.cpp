@@ -10,15 +10,17 @@ using namespace std;
 
 int DEBUG;
 
-vector<vector<int>> TabuSearch(vector<vector<int>> distances){
-    SwapSolutions temp;
+vector<vector<int>> TabuSearch(vector<vector<int>> distances, int iterations){
     int total = distances.size();
 
-    TSTournament tournament = TSTournament(total, 0);
+    TSTournament tournament = TSTournament(total, 1);
     tournament.setDistance(ObjectiveFunction(distances, tournament.getSchedule()));
     tournament.print();
 
-    showSolution(TabuSearchSwapHomes(distances, tournament, DEBUG));
+    vector<vector<int>> tempSchedule = TabuSearchOneSwap(distances, tournament, BestSwapHomes, iterations, DEBUG);
+    tournament.setSchedule(tempSchedule);
+    tournament.setDistance(ObjectiveFunction(distances, tournament.getSchedule()));
+    tournament.print();
 
     return tournament.getSchedule();
 }

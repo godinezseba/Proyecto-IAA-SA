@@ -8,12 +8,14 @@ using namespace std;
 
 int n;
 int seed;
+int iterations;
 // DEBUG defined global in tabusearch
 
 int readInput(int argc, char **argv){ 
     seed = atoi(argv[1]);
     n = atoi(argv[2]);
     DEBUG = atoi(argv[3]);
+    iterations = atoi(argv[4]);
 
     return 1;
 }
@@ -35,7 +37,7 @@ int main(int argc, char *argv[]){
     srand(seed);
 
     // give matrix to the algorithm
-    solution = TabuSearch(distances);
+    solution = TabuSearch(distances, iterations);
     
     // show solution
     // calculateDistance(solution, distances);
