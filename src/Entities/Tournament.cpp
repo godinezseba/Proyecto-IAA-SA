@@ -1,22 +1,47 @@
+#if !defined(Tournament)
+#define Tournament
+
 #include <vector>
 #include <iostream>
 #include <algorithm>
 
 using namespace std;
 
-struct Game {
-    int local;
-    int visit;
-};
+/**
+ * function to show a solution with the format
+*/
+void showSolution(vector<vector<int>> solution) {
+    cout << "Schedule: \n";
+    // first show the name of the team
+    cout << "R\\T|";
+    for(long unsigned int i = 0; i < solution[0].size(); i++)
+        cout << "T" << i+1 << ((i+1 >= 10) ? " " : "  ");
+    cout << endl;
+
+    // print the matrix values
+    int round = 0;
+    for (vector<int> &line : solution) {
+        ++round;
+        cout << " " << round << ((round >= 10) ? "" : " ") <<"|";
+        for(int &value : line)
+            cout << (value >= 0 ? " " : "") << value << (abs(value) < 10 ? "  " : " ");
+        cout << endl;   
+    }
+}
 
 class TSTournament{
 private:
     vector<vector<int>> schedule; // the actual solution
+    unsigned long int distance; // the objective result
     int DEBUG; // debug option
 public:
     TSTournament(int n, int debug);
     ~TSTournament();
     vector<vector<int>> getSchedule();
+    void setSchedule(vector<vector<int>> newSchedule);
+    unsigned long int getDistance();
+    void setDistance(unsigned long int d);
+    void print();
 };
 
 TSTournament::TSTournament(int n, int debug){
@@ -64,3 +89,24 @@ TSTournament::~TSTournament(){
 vector<vector<int>> TSTournament::getSchedule(){
     return schedule;
 }
+
+void TSTournament::setSchedule(vector<vector<int>> newSchedule){
+    schedule = newSchedule;
+}
+
+unsigned long int TSTournament::getDistance(){
+    return distance;
+}
+
+void TSTournament::setDistance(unsigned long int d){
+    distance = d;
+}
+
+void TSTournament::print(){
+    cout << "=======================================================" << endl;
+    cout << "Distancia: " << distance << endl;
+    showSolution(this->getSchedule());
+    cout << "=======================================================" << endl;
+}
+
+#endif // Tournament

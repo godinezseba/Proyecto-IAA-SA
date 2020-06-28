@@ -1,6 +1,6 @@
 #include <vector>
 #include <math.h>
-#include "../Auxiliar.cpp"
+#include "../Entities/TabuList.cpp"
 
 struct TabuSwapMatch{
     int teamA;

@@ -1,5 +1,5 @@
 #include <vector>
-#include "../Auxiliar.cpp"
+#include "../Entities/TabuList.cpp"
 
 using namespace std;
 
