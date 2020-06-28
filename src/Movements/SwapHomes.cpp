@@ -50,7 +50,7 @@ TSTournament BestSwapHomes(vector<vector<int>> distances, TSTournament schedulin
       if(!InTabuList(tabuList, auxTeamA, auxTeamB)){
         // get scheduling from movement
         tempScheduling = SwapHomes(scheduling.getSchedule(), auxTeamA, auxTeamB);
-        auxResult = Distance(distances, tempScheduling);
+        auxResult = ObjectiveFunction(distances, tempScheduling);
         // compare
         if(auxResult < scheduling.getDistance()){
           scheduling.setDistance(auxResult);

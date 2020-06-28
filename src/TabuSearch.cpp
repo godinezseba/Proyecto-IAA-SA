@@ -15,7 +15,7 @@ vector<vector<int>> TabuSearch(vector<vector<int>> distances){
     int total = distances.size();
 
     TSTournament tournament = TSTournament(total, 0);
-    tournament.setDistance(Distance(distances, tournament.getSchedule()));
+    tournament.setDistance(ObjectiveFunction(distances, tournament.getSchedule()));
     tournament.print();
 
     showSolution(TabuSearchSwapHomes(distances, tournament, DEBUG));

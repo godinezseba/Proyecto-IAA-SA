@@ -21,7 +21,7 @@ float DistancePenalty(int distance, int penalty){
     return sqrt(powDistance + powPenalty);
 }
 
-unsigned long int Distance(vector<vector<int>> distances, vector<vector<int>> solution, int DEBUG=0) {
+unsigned long int ObjectiveFunction(vector<vector<int>> distances, vector<vector<int>> solution, int DEBUG=0) {
     unsigned long int distance = 0;
     int localDistance = 0;
     long unsigned int actualCity; // the city where our team is
