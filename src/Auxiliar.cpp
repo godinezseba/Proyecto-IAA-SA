@@ -1,7 +1,19 @@
+#ifndef Auxiliar
+#define Auxiliar
+
 #include <iostream>
 #include <vector>
 
 using namespace std;
+
+/**
+ * struct to save the solution and the list
+ * for SwapMatchRounds and SwapMatches
+*/
+struct SwapSolutions{
+    vector<vector<int>> solution;
+    vector<int> movements;
+};
 
 /**
  * function to show a solution with the format
@@ -24,3 +36,5 @@ void showSolution(vector<vector<int>> solution) {
         cout << endl;   
     }
 }
+
+#endif

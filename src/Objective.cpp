@@ -1,3 +1,6 @@
+#ifndef Objective
+#define Objective
+
 #include <iostream>
 #include <vector>
 #include <math.h>
@@ -67,3 +70,5 @@ unsigned int Distance(vector<vector<int>> solution, vector<vector<int>> distance
 
     return distance;
 }
+
+#endif
