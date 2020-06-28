@@ -54,7 +54,6 @@ TSTournament::TSTournament(int n, int debug){
         teams[i] = i + 1;
 
     random_shuffle(teams.begin(), teams.end());
-    if(DEBUG) for (auto &&i : teams) cout << i << endl;
 
     // use 1-factorization logic
     int lastTeam = teams[n-1]; // last team is always the same
