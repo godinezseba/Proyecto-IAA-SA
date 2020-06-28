@@ -11,6 +11,10 @@ struct TabuSwapHomes{
     int teamB;
 };
 
+void printHomes(TabuSwapHomes element){
+  cout << "Equipo A: " << element.teamA << ", Equipo B: " << element.teamB << endl;
+}
+
 /**
  * movement that change the local/visit for two teams
  * input: the two teams to swap
@@ -35,23 +39,26 @@ bool SwapHomesCondition(TabuSwapHomes inList, TabuSwapHomes auxiliar){
   return cond1 || cond2;
 }
 
-TSTournament BestSwapHomes(vector<vector<int>> distances, TSTournament scheduling, TabuTail<TabuSwapHomes> &tabuList){
+TSTournament BestSwapHomes(vector<vector<int>> distances, TSTournament scheduling, TabuTail<TabuSwapHomes> &tabuList, int DEBUG=0){
   unsigned int totalTeams = scheduling.getSchedule()[0].size();
   unsigned long int bestResult = scheduling.getDistance();
   unsigned long int auxResult;
   TabuSwapHomes tempValues;
   TabuSwapHomes bestValues;
+  vector<vector<int>> bestActual = scheduling.getSchedule();
   vector<vector<int>> tempScheduling;
 
-  for (unsigned int auxTeamA = 0; auxTeamA < totalTeams; auxTeamA++)
-    for (unsigned int auxTeamB = auxTeamA; auxTeamB < totalTeams; auxTeamB++){
+  for (unsigned int auxTeamA = 1; auxTeamA <= totalTeams; auxTeamA++)
+    for (unsigned int auxTeamB = auxTeamA+1; auxTeamB <= totalTeams; auxTeamB++){
+
       tempValues.teamA = auxTeamA;
       tempValues.teamB = auxTeamB;
     
       if(!tabuList.InTabuTail(SwapHomesCondition, tempValues)){
         // get scheduling from movement
-        tempScheduling = SwapHomes(scheduling.getSchedule(), auxTeamA, auxTeamB);
+        tempScheduling = SwapHomes(bestActual, auxTeamA, auxTeamB);
         auxResult = ObjectiveFunction(distances, tempScheduling);
+        // if(DEBUG) cout << "[DEBUG] equipoA: " << auxTeamA << ", equipoB: " << auxTeamB << ", result: " << auxResult << endl;
         // compare
         if(auxResult < scheduling.getDistance()){
           scheduling.setDistance(auxResult);
@@ -62,20 +69,8 @@ TSTournament BestSwapHomes(vector<vector<int>> distances, TSTournament schedulin
     }
 
   // add the result to the list
-  if (bestResult != scheduling.getDistance()) tabuList.addElement(tempValues);
+  if (bestResult != scheduling.getDistance()) tabuList.addElement(bestValues);
   
+  if(DEBUG) tabuList.print(printHomes);
   return scheduling;
-}
-
-vector<vector<int>> TabuSearchSwapHomes(vector<vector<int>> distances, TSTournament scheduling, int DEBUG=0){
-  TabuTail<TabuSwapHomes> tabuList = TabuTail<TabuSwapHomes>(8);
-
-  for(int i = 0; i < 100; i++){
-    scheduling = BestSwapHomes(distances, scheduling, tabuList);
-    if(DEBUG) scheduling.print();
-  }
-
-  ObjectiveFunction(distances, scheduling.getSchedule(), 1);
-
-  return scheduling.getSchedule();
 }
