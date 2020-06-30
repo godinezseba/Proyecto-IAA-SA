@@ -8,19 +8,20 @@
 
 using namespace std;
 
-int DEBUG;
-
-vector<vector<int>> TabuSearch(vector<vector<int>> distances, int iterations){
+vector<vector<int>> TabuSearch(vector<vector<int>> distances, int iterations, int lenList, int DEBUG=0){
     int total = distances.size();
 
-    TSTournament tournament = TSTournament(total, 1);
+    TSTournament tournament = TSTournament(total, 0);
     tournament.setDistance(ObjectiveFunction(distances, tournament.getSchedule()));
     tournament.print();
 
-    vector<vector<int>> tempSchedule = TabuSearchOneSwap(distances, tournament, BestSwapMatchRounds, iterations, DEBUG);
+    // code to iterate with the movements separately
+    // vector<vector<int>> tempSchedule = TabuSearchOneSwap(distances, tournament, BestSwapHomes, iterations, lenList, DEBUG);
+    // vector<vector<int>> tempSchedule = TabuSearchOneSwap(distances, tournament, BestSwapMatches, iterations, lenList, DEBUG);
+    vector<vector<int>> tempSchedule = TabuSearchOneSwap(distances, tournament, BestSwapMatchRounds, iterations, lenList, DEBUG);
     tournament.setSchedule(tempSchedule);
-    tournament.setDistance(ObjectiveFunction(distances, tournament.getSchedule(), 1));
-    tournament.print();
+    tournament.setDistance(ObjectiveFunction(distances, tournament.getSchedule(), 0));
+    // tournament.print();
 
     return tournament.getSchedule();
 }
