@@ -39,9 +39,8 @@ bool SwapHomesCondition(TabuSwapHomes inList, TabuSwapHomes auxiliar){
   return cond1 || cond2;
 }
 
-TSTournament BestSwapHomes(vector<vector<int>> distances, TSTournament scheduling, TabuTail<TabuSwapHomes> &tabuList, int DEBUG=0){
+TabuSwapHomes BestSwapHomes(vector<vector<int>> distances, TSTournament &scheduling, TabuTail<TabuSwapHomes> tabuList, int DEBUG=0){
   unsigned int totalTeams = scheduling.getSchedule()[0].size();
-  unsigned long int bestResult = scheduling.getDistance();
   unsigned long int auxResult;
   TabuSwapHomes tempValues;
   TabuSwapHomes bestValues;
@@ -68,9 +67,5 @@ TSTournament BestSwapHomes(vector<vector<int>> distances, TSTournament schedulin
       }
     }
 
-  // add the result to the list
-  if (bestResult != scheduling.getDistance()) tabuList.addElement(bestValues);
-  
-  // if(DEBUG) tabuList.print(printHomes);
-  return scheduling;
+  return bestValues;
 }

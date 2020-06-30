@@ -74,10 +74,9 @@ SwapSolutions SwapMatchRounds(vector<vector<int>> scheduling, int roundA, int ro
     return solution;
 }
 
-TSTournament BestSwapMatchRounds(vector<vector<int>> distances, TSTournament scheduling, TabuTail<TabuSwapWithList> &tabuList, int DEBUG=0){
+TabuSwapWithList BestSwapMatchRounds(vector<vector<int>> distances, TSTournament &scheduling, TabuTail<TabuSwapWithList> tabuList, int DEBUG=0){
     unsigned int totalTeams = scheduling.getSchedule()[0].size();
     unsigned int totalRounds = scheduling.getSchedule().size();
-    unsigned long int bestResult = scheduling.getDistance();
     unsigned long int auxResult;
     TabuSwapWithList bestValues;
     TabuSwapWithList tempValues;
@@ -106,9 +105,6 @@ TSTournament BestSwapMatchRounds(vector<vector<int>> distances, TSTournament sch
                     }
                 }                
             }
-    // add the result to the list
-    if (bestResult != scheduling.getDistance()) tabuList.addElement(bestValues);
     
-    if(DEBUG) tabuList.print(printAuxiliar);
-    return scheduling;
+    return bestValues;
 }
