@@ -71,6 +71,6 @@ TSTournament BestSwapHomes(vector<vector<int>> distances, TSTournament schedulin
   // add the result to the list
   if (bestResult != scheduling.getDistance()) tabuList.addElement(bestValues);
   
-  if(DEBUG) tabuList.print(printHomes);
+  // if(DEBUG) tabuList.print(printHomes);
   return scheduling;
 }
