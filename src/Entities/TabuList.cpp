@@ -50,11 +50,17 @@ public:
 };
 
 template <class T>
-vector<vector<int>> TabuSearchOneSwap(vector<vector<int>> distances, TSTournament scheduling, TSTournament (*BestSwap)(vector<vector<int>>, TSTournament, TabuTail<T> &, int), int iterations, int lenList, int DEBUG=0){
+vector<vector<int>> TabuSearchOneSwap(vector<vector<int>> distances, TSTournament scheduling, T (*BestSwap)(vector<vector<int>>, TSTournament &, TabuTail<T> &, int), int iterations, int lenList, int DEBUG=0){
   TabuTail<T> tabuList = TabuTail<T>(lenList);
+  T tempTabu;
+  unsigned long int bestValue = scheduling.getDistance();
 
   for(int i = 0; i < iterations; i++){
-    scheduling = BestSwap(distances, scheduling, tabuList, 0);
+    tempTabu = BestSwap(distances, scheduling, tabuList, 0);
+    if(bestValue > scheduling.getDistance()){
+      tabuList.addElement(tempTabu);
+      bestValue = scheduling.getDistance();
+    }
     if(DEBUG) scheduling.print();
   }
 
