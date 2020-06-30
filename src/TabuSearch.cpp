@@ -110,10 +110,10 @@ vector<vector<int>> TabuSearch(vector<vector<int>> distances, int iterations, in
     // code to iterate with the movements separately
     // vector<vector<int>> tempSchedule = TabuSearchOneSwap(distances, tournament, BestSwapHomes, iterations, lenList, DEBUG);
     // vector<vector<int>> tempSchedule = TabuSearchOneSwap(distances, tournament, BestSwapMatches, iterations, lenList, DEBUG);
-    // vector<vector<int>> tempSchedule = TabuSearchOneSwap(distances, tournament, BestSwapMatchRounds, iterations, lenList, DEBUG);
+    vector<vector<int>> tempSchedule = TabuSearchOneSwap(distances, tournament, BestSwapMatchRounds, iterations, lenList, DEBUG);
 
     // code to iterate swap matches with swap matchesround
-    vector<vector<int>> tempSchedule = BestResult(distances, tournament, iterations, lenList, DEBUG);
+    // vector<vector<int>> tempSchedule = BestResult(distances, tournament, iterations, lenList, DEBUG);
     tournament.setSchedule(tempSchedule);
     tournament.setDistance(ObjectiveFunction(distances, tournament.getSchedule(), 1));
     // tournament.print();

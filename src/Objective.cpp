@@ -56,8 +56,6 @@ unsigned long int ObjectiveFunction(vector<vector<int>> distances, vector<vector
         if (actualCity != actualTeam) localDistance += distances[actualCity][actualTeam]; // if the team dont finish in home
 
         distance += localDistance;
-
-        if(DEBUG) cout << "[DEBUG] distancia hasta punto " << actualTeam << " " << distance << endl;
     }
 
     if(DEBUG) cout << "[DEBUG] cantidad de faltas: " << penalty << endl;
