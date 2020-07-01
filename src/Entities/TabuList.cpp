@@ -69,4 +69,41 @@ vector<vector<int>> TabuSearchOneSwap(vector<vector<int>> distances, TSTournamen
   return scheduling.getSchedule();
 }
 
+template <class A, class B>
+vector<vector<int>> TabuSearchTwoSwaps(vector<vector<int>> distances, 
+                                TSTournament scheduling, 
+                                A (*BestSwapA)(vector<vector<int>>, TSTournament &, TabuTail<A>, int), 
+                                B (*BestSwapB)(vector<vector<int>>, TSTournament &, TabuTail<B>, int), 
+                                int iterations, 
+                                int lenList, 
+                                int DEBUG=0){
+    TabuTail<A> tabuListA = TabuTail<A>(lenList);
+    TabuTail<B> tabuListB = TabuTail<B>(lenList);
+    A tabuA;
+    B tabuB;
+    TSTournament tempA = scheduling;
+    TSTournament tempB = scheduling;
+    TSTournament tempBest = scheduling;
+
+    for(int i = 0; i < iterations; i++){
+        tabuA = BestSwapA(distances, tempA, tabuListA, 0);
+        tabuB = BestSwapB(distances, tempB, tabuListB, 0);
+        // check if one of the two get good results
+        if(tempA.getDistance() < tempBest.getDistance() || tempB.getDistance() < tempBest.getDistance()){
+            if(tempA.getDistance() < tempB.getDistance()){
+                tempBest = tempA;
+                tabuListA.addElement(tabuA);
+            } else{
+                tempBest = tempB;
+                tabuListB.addElement(tabuB);
+            }
+        }
+        if (DEBUG) tempBest.print();
+    }
+
+    if(DEBUG) ObjectiveFunction(distances, tempBest.getSchedule(), 0);
+
+    return tempBest.getSchedule();
+}
+
 #endif
