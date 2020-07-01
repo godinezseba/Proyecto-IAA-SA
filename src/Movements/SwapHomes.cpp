@@ -59,7 +59,7 @@ TabuSwapHomes BestSwapHomes(vector<vector<int>> distances, TSTournament &schedul
         auxResult = ObjectiveFunction(distances, tempScheduling);
         // if(DEBUG) cout << "[DEBUG] equipoA: " << auxTeamA << ", equipoB: " << auxTeamB << ", result: " << auxResult << endl;
         // compare
-        if(auxResult < scheduling.getDistance()){
+        if(auxResult <= scheduling.getDistance()){
           scheduling.setDistance(auxResult);
           scheduling.setSchedule(tempScheduling);
           bestValues = tempValues;

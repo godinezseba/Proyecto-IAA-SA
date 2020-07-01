@@ -90,7 +90,7 @@ TabuSwapWithList BestSwapMatches(vector<vector<int>> distances, TSTournament &sc
                         auxResult = ObjectiveFunction(distances, tempScheduling.solution);
                         if(DEBUG) cout << "[DEBUG] equipoA: " << auxTeamA << ", equipoB: " << auxTeamB << ", round: " << auxRound << ", result: " << auxResult << endl;
                         // compare
-                        if(auxResult < scheduling.getDistance()){
+                        if(auxResult <= scheduling.getDistance()){
                             scheduling.setDistance(auxResult);
                             scheduling.setSchedule(tempScheduling.solution);
                             tempValues.list = tempScheduling.movements;
