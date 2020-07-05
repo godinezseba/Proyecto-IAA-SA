@@ -13,7 +13,7 @@ float SmothFunction(int penalty){
 
 float DistancePenalty(int distance, int penalty){
     float f = SmothFunction(penalty);
-    float weigth = 100*penalty;
+    float weigth = 5000*penalty;
 
     float powDistance = pow(distance, 2);
     float powPenalty = pow(weigth*f, 2);
