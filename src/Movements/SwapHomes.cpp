@@ -1,3 +1,6 @@
+#if !defined(Homes)
+#define Homes
+
 #include <vector>
 #include <math.h>
 #include "../Entities/Tournament.cpp"
@@ -11,7 +14,7 @@ struct TabuSwapHomes{
     int teamB;
 };
 
-void printHomes(TabuSwapHomes element){
+void print(TabuSwapHomes element){
   cout << "Equipo A: " << element.teamA << ", Equipo B: " << element.teamB << endl;
 }
 
@@ -69,3 +72,5 @@ TabuSwapHomes BestSwapHomes(vector<vector<int>> distances, TSTournament &schedul
 
   return bestValues;
 }
+
+#endif

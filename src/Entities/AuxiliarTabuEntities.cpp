@@ -12,7 +12,7 @@ struct TabuSwapWithList{
     vector<int> list;
 };
 
-void printAuxiliar(TabuSwapWithList element){
+void print(TabuSwapWithList element){
   cout << "auxA: " << element.auxA << ", auxB: " << element.auxB << endl;
   for(int element : element.list)
     cout << element << ", ";
