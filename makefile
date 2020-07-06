@@ -48,9 +48,9 @@ testTHREE: compile
 	done
 
 resultados: compile
-	for number in 4 6 10 12 14 16 ; do \
+	for number in 8 ; do \
 		for seed in $$(seq 0 9) ; do \
 			echo instance: $$number seed: $$seed ; \
-			./main $$seed $$number 1 50 $$(expr $$number / 2) 5000 < input/$(TYPE)/$(TYPE)$$number.txt > output/resultados/$(TYPE)$$number.5000.$$seed.solution ; \
+			./main $$seed $$number 1 50 $$(expr $$number / 2) 400 < input/galaxy/galaxy$$number.txt > output/resultados/galaxy$$number.400.$$seed.solution ; \
 		done ; \
 	done
