@@ -54,14 +54,15 @@ vector<vector<int>> TabuSearchOneSwap(vector<vector<int>> distances,
                                       TSTournament scheduling, 
                                       T (*BestSwap)(vector<vector<int>>, TSTournament &, TabuTail<T>, int), 
                                       int iterations, 
-                                      int lenList, 
+                                      int lenList,
+                                      int weight, 
                                       int DEBUG=0){
   TabuTail<T> tabuList = TabuTail<T>(lenList);
   T tempTabu;
   unsigned long int bestValue = scheduling.getDistance();
 
   for(int i = 0; i < iterations; i++){
-    tempTabu = BestSwap(distances, scheduling, tabuList, 0);
+    tempTabu = BestSwap(distances, scheduling, tabuList, weight, 0);
     if(bestValue > scheduling.getDistance()){
       tabuList.addElement(tempTabu);
       bestValue = scheduling.getDistance();
@@ -69,7 +70,7 @@ vector<vector<int>> TabuSearchOneSwap(vector<vector<int>> distances,
     if(DEBUG) scheduling.print();
   }
 
-  if(DEBUG) ObjectiveFunction(distances, scheduling.getSchedule(), 0);
+  if(DEBUG) ObjectiveFunction(distances, scheduling.getSchedule(), weight, 0);
 
   return scheduling.getSchedule();
 }
@@ -77,10 +78,11 @@ vector<vector<int>> TabuSearchOneSwap(vector<vector<int>> distances,
 template <class A, class B>
 vector<vector<int>> TabuSearchTwoSwaps(vector<vector<int>> distances, 
                                 TSTournament scheduling, 
-                                A (*BestSwapA)(vector<vector<int>>, TSTournament &, TabuTail<A>, int), 
-                                B (*BestSwapB)(vector<vector<int>>, TSTournament &, TabuTail<B>, int), 
+                                A (*BestSwapA)(vector<vector<int>>, TSTournament &, TabuTail<A>, int, int), 
+                                B (*BestSwapB)(vector<vector<int>>, TSTournament &, TabuTail<B>, int, int), 
                                 int iterations, 
-                                int lenList, 
+                                int lenList,
+                                int weight, 
                                 int DEBUG=0){
     TabuTail<A> tabuListA = TabuTail<A>(lenList);
     TabuTail<B> tabuListB = TabuTail<B>(lenList);
@@ -91,8 +93,8 @@ vector<vector<int>> TabuSearchTwoSwaps(vector<vector<int>> distances,
     TSTournament tempBest = scheduling;
 
     for(int i = 0; i < iterations; i++){
-        tabuA = BestSwapA(distances, tempA, tabuListA, 0);
-        tabuB = BestSwapB(distances, tempB, tabuListB, 0);
+        tabuA = BestSwapA(distances, tempA, tabuListA, weight, 0);
+        tabuB = BestSwapB(distances, tempB, tabuListB, weight, 0);
         // check if one of the two get good results
         if(tempA.getDistance() < tempBest.getDistance() || tempB.getDistance() < tempBest.getDistance()){
             if(tempA.getDistance() < tempB.getDistance()){
@@ -108,7 +110,7 @@ vector<vector<int>> TabuSearchTwoSwaps(vector<vector<int>> distances,
         if (DEBUG) tempBest.print();
     }
 
-    if(DEBUG) ObjectiveFunction(distances, tempBest.getSchedule(), 0);
+    if(DEBUG) ObjectiveFunction(distances, tempBest.getSchedule(), weight, 0);
 
     return tempBest.getSchedule();
 }

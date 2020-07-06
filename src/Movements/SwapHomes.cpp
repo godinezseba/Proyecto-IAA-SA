@@ -42,7 +42,7 @@ bool SwapHomesCondition(TabuSwapHomes inList, TabuSwapHomes auxiliar){
   return cond1 || cond2;
 }
 
-TabuSwapHomes BestSwapHomes(vector<vector<int>> distances, TSTournament &scheduling, TabuTail<TabuSwapHomes> tabuList, int DEBUG=0){
+TabuSwapHomes BestSwapHomes(vector<vector<int>> distances, TSTournament &scheduling, TabuTail<TabuSwapHomes> tabuList, int weight, int DEBUG=0){
   unsigned int totalTeams = scheduling.getSchedule()[0].size();
   unsigned long int auxResult;
   TabuSwapHomes tempValues;
@@ -59,7 +59,7 @@ TabuSwapHomes BestSwapHomes(vector<vector<int>> distances, TSTournament &schedul
       if(!tabuList.InTabuTail(SwapHomesCondition, tempValues)){
         // get scheduling from movement
         tempScheduling = SwapHomes(bestActual, auxTeamA, auxTeamB);
-        auxResult = ObjectiveFunction(distances, tempScheduling);
+        auxResult = ObjectiveFunction(distances, tempScheduling, weight);
         // if(DEBUG) cout << "[DEBUG] equipoA: " << auxTeamA << ", equipoB: " << auxTeamB << ", result: " << auxResult << endl;
         // compare
         if(auxResult <= scheduling.getDistance()){

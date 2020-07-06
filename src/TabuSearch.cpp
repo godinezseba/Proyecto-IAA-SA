@@ -11,7 +11,8 @@ using namespace std;
 vector<vector<int>> TabuSearchThreeSwaps(vector<vector<int>> distances, 
                                         TSTournament scheduling,
                                         int iterations, 
-                                        int lenList, 
+                                        int lenList,
+                                        int weight, 
                                         int DEBUG=0){
     TabuTail<TabuSwapHomes> tabuListHomes = TabuTail<TabuSwapHomes>(lenList);
     TabuTail<TabuSwapWithList> tabuListMatches = TabuTail<TabuSwapWithList>(lenList);
@@ -25,9 +26,9 @@ vector<vector<int>> TabuSearchThreeSwaps(vector<vector<int>> distances,
     TSTournament bestTemp = scheduling;
 
     for (int i = 0; i < iterations; i++){
-        tabuHomes = BestSwapHomes(distances, tempHomes, tabuListHomes);
-        tabuMatches = BestSwapMatches(distances, tempMatches, tabuListMatches);
-        tabuRounds = BestSwapMatchRounds(distances, tempRounds, tabuListRounds);
+        tabuHomes = BestSwapHomes(distances, tempHomes, tabuListHomes, weight);
+        tabuMatches = BestSwapMatches(distances, tempMatches, tabuListMatches, weight);
+        tabuRounds = BestSwapMatchRounds(distances, tempRounds, tabuListRounds, weight);
         // check if one of the three is better
         if(tempHomes.getDistance() < bestTemp.getDistance() || tempMatches.getDistance() < bestTemp.getDistance() || tempRounds.getDistance() < bestTemp.getDistance()){
             if(tempHomes.getDistance() < tempMatches.getDistance() || tempHomes.getDistance() < tempRounds.getDistance()){
@@ -57,11 +58,11 @@ vector<vector<int>> TabuSearchThreeSwaps(vector<vector<int>> distances,
 }
 
 
-vector<vector<int>> TabuSearch(vector<vector<int>> distances, int iterations, int lenList, int DEBUG=0){
+vector<vector<int>> TabuSearch(vector<vector<int>> distances, int iterations, int lenList, int weight,int DEBUG=0){
     int total = distances.size();
 
     TSTournament tournament = TSTournament(total, 0);
-    tournament.setDistance(ObjectiveFunction(distances, tournament.getSchedule()));
+    tournament.setDistance(ObjectiveFunction(distances, tournament.getSchedule(), weight));
     tournament.print();
 
     // code to iterate with the movements separately
@@ -71,10 +72,14 @@ vector<vector<int>> TabuSearch(vector<vector<int>> distances, int iterations, in
 
     // code to iterate swap matches with swap matchesround
     // vector<vector<int>> tempSchedule = TabuSearchTwoSwaps(distances, tournament, BestSwapHomes, BestSwapMatches, iterations, lenList, DEBUG);
-    // vector<vector<int>> tempSchedule = TabuSearchTwoSwaps(distances, tournament, BestSwapHomes, BestSwapMatchRounds, iterations, lenList, DEBUG);
-    vector<vector<int>> tempSchedule = TabuSearchTwoSwaps(distances, tournament, BestSwapMatches, BestSwapMatchRounds, iterations, lenList, DEBUG);
+    vector<vector<int>> tempSchedule = TabuSearchTwoSwaps(distances, tournament, BestSwapHomes, BestSwapMatchRounds, iterations, lenList, weight, DEBUG);
+    // vector<vector<int>> tempSchedule = TabuSearchTwoSwaps(distances, tournament, BestSwapMatches, BestSwapMatchRounds, iterations, lenList, DEBUG);
+    
+    // swap of the three movements
+    // vector<vector<int>> tempSchedule = TabuSearchThreeSwaps(distances, tournament, iterations, lenList, DEBUG);
+
     tournament.setSchedule(tempSchedule);
-    tournament.setDistance(ObjectiveFunction(distances, tournament.getSchedule(), 0));
+    tournament.setDistance(ObjectiveFunction(distances, tournament.getSchedule(), weight, 0));
     // tournament.print();
 
     return tournament.getSchedule();

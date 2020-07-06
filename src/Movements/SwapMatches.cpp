@@ -68,7 +68,7 @@ SwapSolutions SwapMatches(vector<vector<int>> scheduling, int teamA, int teamB, 
     return solution;
 }
 
-TabuSwapWithList BestSwapMatches(vector<vector<int>> distances, TSTournament &scheduling, TabuTail<TabuSwapWithList> tabuList, int DEBUG=0){
+TabuSwapWithList BestSwapMatches(vector<vector<int>> distances, TSTournament &scheduling, TabuTail<TabuSwapWithList> tabuList, int weight, int DEBUG=0){
     unsigned int totalTeams = scheduling.getSchedule()[0].size();
     unsigned int totalRounds = scheduling.getSchedule().size();
     unsigned long int auxResult;
@@ -87,7 +87,7 @@ TabuSwapWithList BestSwapMatches(vector<vector<int>> distances, TSTournament &sc
                 if(!tabuList.InTabuTail(AuxCondition, tempValues)){
                     tempScheduling = SwapMatches(bestActual, auxTeamA, auxTeamB, auxRound);
                     if(tempScheduling.movements.size() != 0){
-                        auxResult = ObjectiveFunction(distances, tempScheduling.solution);
+                        auxResult = ObjectiveFunction(distances, tempScheduling.solution, weight);
                         if(DEBUG) cout << "[DEBUG] equipoA: " << auxTeamA << ", equipoB: " << auxTeamB << ", round: " << auxRound << ", result: " << auxResult << endl;
                         // compare
                         if(auxResult <= scheduling.getDistance()){

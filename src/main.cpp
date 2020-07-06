@@ -11,6 +11,7 @@ int seed;
 int DEBUG;
 int iterations;
 int lenList;
+int weight;
 
 int readInput(int argc, char **argv){ 
     seed = atoi(argv[1]);
@@ -18,6 +19,7 @@ int readInput(int argc, char **argv){
     DEBUG = atoi(argv[3]);
     iterations = atoi(argv[4]);
     lenList = atoi(argv[5]);
+    weight = atoi(argv[6]);
 
     return 1;
 }
@@ -39,7 +41,7 @@ int main(int argc, char *argv[]){
     srand(seed);
 
     // give matrix to the algorithm
-    solution = TabuSearch(distances, iterations, lenList, DEBUG);
+    solution = TabuSearch(distances, iterations, lenList, weight, DEBUG);
     
     // show solution
     // calculateDistance(solution, distances);
