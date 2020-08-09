@@ -11,9 +11,9 @@ float SmothFunction(int penalty){
     return  1 + (sqrt(penalty)*log(penalty))/2;
 }
 
-float DistancePenalty(int distance, int penalty){
+float DistancePenalty(int distance, int penalty, int weight){
     float f = SmothFunction(penalty);
-    float weigth = 100*penalty;
+    float weigth = weight*penalty;
 
     float powDistance = pow(distance, 2);
     float powPenalty = pow(weigth*f, 2);
@@ -21,7 +21,7 @@ float DistancePenalty(int distance, int penalty){
     return sqrt(powDistance + powPenalty);
 }
 
-unsigned long int ObjectiveFunction(vector<vector<int>> distances, vector<vector<int>> solution, int DEBUG=0) {
+unsigned long int ObjectiveFunction(vector<vector<int>> distances, vector<vector<int>> solution, int weight,int DEBUG=0) {
     unsigned long int distance = 0;
     int localDistance = 0;
     long unsigned int actualCity; // the city where our team is
@@ -56,15 +56,13 @@ unsigned long int ObjectiveFunction(vector<vector<int>> distances, vector<vector
         if (actualCity != actualTeam) localDistance += distances[actualCity][actualTeam]; // if the team dont finish in home
 
         distance += localDistance;
-
-        if(DEBUG) cout << "[DEBUG] distancia hasta punto " << actualTeam << " " << distance << endl;
     }
 
     if(DEBUG) cout << "[DEBUG] cantidad de faltas: " << penalty << endl;
     if(DEBUG) cout << "[DEBUG] Distancia total: " << distance << endl;
 
     if(penalty != 0){
-        distance = DistancePenalty(distance, penalty);
+        distance = DistancePenalty(distance, penalty, weight);
         if(DEBUG) cout << "[DEBUG] Distancia con penalty: " << distance << endl;
     }
 

@@ -35,6 +35,7 @@ private:
     unsigned long int distance; // the objective result
     int DEBUG; // debug option
 public:
+    TSTournament();
     TSTournament(int n, int debug);
     ~TSTournament();
     vector<vector<int>> getSchedule();
@@ -43,6 +44,11 @@ public:
     void setDistance(unsigned long int d);
     void print();
 };
+
+TSTournament::TSTournament(){
+    distance = 0;
+    DEBUG = 0;
+}
 
 TSTournament::TSTournament(int n, int debug){
     schedule = vector<vector<int>>(2*(n - 1), vector<int>(n));
@@ -103,8 +109,8 @@ void TSTournament::setDistance(unsigned long int d){
 
 void TSTournament::print(){
     if(DEBUG) cout << "=======================================================" << endl;
-    cout << "Distancia: " << distance << endl;
-    if(DEBUG) showSolution(this->getSchedule());
+    cout << /*"Distancia: " << */ distance << endl;
+    showSolution(this->getSchedule());
     if(DEBUG) cout << "=======================================================" << endl;
 }
 
