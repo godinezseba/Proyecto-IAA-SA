@@ -110,7 +110,7 @@ void TSTournament::setDistance(unsigned long int d){
 void TSTournament::print(){
     if(DEBUG) cout << "=======================================================" << endl;
     cout << /*"Distancia: " << */ distance << endl;
-    // showSolution(this->getSchedule()); // comment this to only get value
+    showSolution(this->getSchedule()); // comment this to only get value
     if(DEBUG) cout << "=======================================================" << endl;
 }
 
