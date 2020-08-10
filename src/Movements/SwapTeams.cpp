@@ -1,3 +1,6 @@
+#if !defined(Teams)
+#define Teams
+
 #include <vector>
 #include <math.h>
 #include "../Entities/TabuList.cpp"
@@ -11,7 +14,7 @@ struct TabuSwapTeams{
   int teamB;
 };
 
-void printTeams(TabuSwapTeams element){
+void print(TabuSwapTeams element){
   cout << "Equipo A: " << element.teamA << ", Equipo B: " << element.teamB << endl;
 }
 
@@ -20,7 +23,7 @@ void printTeams(TabuSwapTeams element){
  * input: the two teams to swap
  * output: the new scheduling
 */
-vector<vector<int>> SwapTeams(vector<vector<int>> scheduling, int teamA, int teamB){
+vector<vector<int>> SwapTeams(vector<vector<int>> scheduling, unsigned int teamA, unsigned int teamB){
   int postA = teamA - 1;
   int postB = teamB - 1;
   // change the two teams in all the rounds
@@ -28,13 +31,14 @@ vector<vector<int>> SwapTeams(vector<vector<int>> scheduling, int teamA, int tea
     unsigned int rivalA = abs(round[postA]);
     unsigned int rivalB = abs(round[postB]);
     // change the rival if it is not the other team
-    if(! rivalA == teamB){
+    if(rivalA != teamB){
+      int originalA = round[postA];
       // change teamA
-      round[postA] = copysign(rivalB, round[postA]);
-      round[rivalB-1] = copysign(teamA, round[rivalA-1]);
+      round[postA] = copysign(rivalB, round[postB]);
+      round[rivalB-1] = copysign(teamA, round[rivalB-1]);
       // change teamB
-      round[postB] = copysign(rivalA, round[postB]);
-      round[rivalA-1] = copysign(teamB, round[rivalB-1]);
+      round[postB] = copysign(rivalA, originalA);
+      round[rivalA-1] = copysign(teamB, round[rivalA-1]);
     }
   }
 
@@ -47,9 +51,8 @@ bool SwapTeamsCondition(TabuSwapTeams inList, TabuSwapTeams auxiliar){
   return cond1 || cond2;
 }
 
-TSTournament BestSwapTeams(vector<vector<int>> distances, TSTournament scheduling, TabuTail<TabuSwapTeams> &tabuList, int DEBUG=0){
+TabuSwapTeams BestSwapTeams(vector<vector<int>> distances, TSTournament &scheduling, TabuTail<TabuSwapTeams> tabuList, int weight, int DEBUG=0){
   unsigned int totalTeams = scheduling.getSchedule()[0].size();
-  unsigned long int bestResult = scheduling.getDistance();
   unsigned long int auxResult;
   TabuSwapTeams tempValues;
   TabuSwapTeams bestValues;
@@ -64,7 +67,7 @@ TSTournament BestSwapTeams(vector<vector<int>> distances, TSTournament schedulin
       if(!tabuList.InTabuTail(SwapTeamsCondition, tempValues)){
         // get scheduling from movement
         tempScheduling = SwapTeams(bestActual, auxTeamA, auxTeamB);
-        auxResult = ObjectiveFunction(distances, tempScheduling);
+        auxResult = ObjectiveFunction(distances, tempScheduling, weight);
         // if(DEBUG) cout << "[DEBUG] equipoA: " << auxTeamA << ", equipoB: " << auxTeamB << ", result: " << auxResult << endl;
         // compare
         if(auxResult < scheduling.getDistance()){
@@ -75,9 +78,7 @@ TSTournament BestSwapTeams(vector<vector<int>> distances, TSTournament schedulin
       }
     }
 
-  // add the result to the list
-  if (bestResult != scheduling.getDistance()) tabuList.addElement(bestValues);
-  
-  if(DEBUG) tabuList.print(printTeams);
-  return scheduling;
+  return bestValues;
 }
+
+#endif

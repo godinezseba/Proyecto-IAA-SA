@@ -52,7 +52,7 @@ public:
 template <class T>
 vector<vector<int>> TabuSearchOneSwap(vector<vector<int>> distances, 
                                       TSTournament scheduling, 
-                                      T (*BestSwap)(vector<vector<int>>, TSTournament &, TabuTail<T>, int), 
+                                      T (*BestSwap)(vector<vector<int>>, TSTournament &, TabuTail<T>, int, int), 
                                       int iterations, 
                                       int lenList,
                                       int weight, 
@@ -106,12 +106,16 @@ vector<vector<int>> TabuSearchTwoSwaps(vector<vector<int>> distances,
                 tempA = tempB;
                 tabuListB.addElement(tabuB);
             }
+        } else {
+          // cout << weight << endl;
+          weight = weight - weight*0.2;
         }
         if (DEBUG) tempBest.print();
     }
 
     if(DEBUG) ObjectiveFunction(distances, tempBest.getSchedule(), weight, 0);
 
+    tempBest.print();
     return tempBest.getSchedule();
 }
 

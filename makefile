@@ -27,7 +27,7 @@ testONE: compile
 	for number in 4 6 10 12 14 16 ; do \
 		for seed in $$(seq 0 9) ; do \
 			echo instance: $$number seed: $$seed ; \
-			./main $$seed $$number 1 100 $$(expr $$number / 2) < input/$(TYPE)/$(TYPE)$$number.txt > output/test.one/$(TYPE)$$number.$(MOVIMIENTO).$$seed.solution ; \
+			./main $$seed $$number 1 100 $$(expr $$number / 2) 5000 < input/$(TYPE)/$(TYPE)$$number.txt > output/test.one/$(TYPE)$$number.$(MOVIMIENTO).$$seed.solution ; \
 		done ; \
 	done
 
@@ -35,7 +35,7 @@ testTWO: compile
 	for number in 4 6 10 12 14 16 ; do \
 		for seed in $$(seq 0 9) ; do \
 			echo instance: $$number seed: $$seed ; \
-			./main $$seed $$number 1 100 $$(expr $$number / 2) < input/$(TYPE)/$(TYPE)$$number.txt > output/test.two/$(TYPE)$$number.$(MOVIMIENTO).$$seed.solution ; \
+			./main $$seed $$number 1 100 $$(expr $$number / 2) 5000 < input/$(TYPE)/$(TYPE)$$number.txt > output/test.two/$(TYPE)$$number.$(MOVIMIENTO).$$seed.solution ; \
 		done ; \
 	done
 
@@ -43,14 +43,14 @@ testTHREE: compile
 	for number in 4 6 10 12 14 16 ; do \
 		for seed in $$(seq 0 9) ; do \
 			echo instance: $$number seed: $$seed ; \
-			./main $$seed $$number 1 100 $$(expr $$number / 2) < input/$(TYPE)/$(TYPE)$$number.txt > output/test.final/$(TYPE)$$number.swapThree.$$seed.solution ; \
+			./main $$seed $$number 1 100 $$(expr $$number / 2) 5000 < input/$(TYPE)/$(TYPE)$$number.txt > output/test.final/$(TYPE)$$number.swapThree2.$$seed.solution ; \
 		done ; \
 	done
 
 resultados: compile
-	for number in 8 ; do \
+	for number in 4 6 8 10 12 14 16 18 20; do \
 		for seed in $$(seq 0 9) ; do \
 			echo instance: $$number seed: $$seed ; \
-			./main $$seed $$number 1 50 $$(expr $$number / 2) 400 < input/galaxy/galaxy$$number.txt > output/resultados/galaxy$$number.400.$$seed.solution ; \
+			./main $$seed $$number 1 50 $$(expr $$number / 2) 1200 < input/galaxy/galaxy$$number.txt > output/resultados/galaxy$$number.1200.$$seed.solution ; \
 		done ; \
 	done
